@@ -21,7 +21,6 @@ A scalable and extensible RESTful API backend for an e-commerce platform, built 
 - ✅ Admin panel for product and order management
 - ✅ Cart & Order management with `CartItem` model linked via `ForeignKey`
 - ✅ API-first approach (no templates or frontend dependencies)
-- ✅ Realtime device data sync support via Firebase
 - ✅ Swagger UI for API testing and exploration
 - ✅ Modular code structure with clear separation of concerns
 
