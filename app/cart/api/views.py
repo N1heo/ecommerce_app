@@ -17,8 +17,8 @@ def cart_view(request):
         return Response({"detail": "You do not have an active order."}, status=404)
 
     order = orders.first()
-    carts = CartItem.objects.filter(user=user, order=order)
-    cart_data = CartItemSerializer(carts, many=True).data
+    # carts = CartItem.objects.filter(user=user, order=order)
+    # cart_data = CartItemSerializer(carts, many=True).data
     order_data = OrderSerializer(order).data
 
     return Response({

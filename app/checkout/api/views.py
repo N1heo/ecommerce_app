@@ -1,3 +1,6 @@
+import stripe
+import logging
+
 from rest_framework.permissions import AllowAny
 from django.views.decorators.csrf import csrf_exempt
 
@@ -5,18 +8,15 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status
-from django.utils.crypto import get_random_string
 from django.conf import settings
 from django.urls import reverse
-
-
-import stripe
 
 from cart.api.serializers import OrderSerializer
 from cart.models import Order, CartItem
 from checkout.models import BillingAddress
 from checkout.api.serializers import BillingAddressSerializer
+
+logger = logging.getLogger(__name__)
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -93,8 +93,10 @@ def stripe_webhook_view(request):
     try:
         event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
     except ValueError as e:
+        logger.error(f"Invalid payload: {e}")
         return Response({'error': 'Invalid payload'}, status=400)
     except stripe.error.SignatureVerificationError as e:
+        logger.error(f"Invalid signature: {e}")
         return Response({'error': 'Invalid signature'}, status=400)
 
     # Handle successful payment

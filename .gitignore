@@ -174,3 +174,34 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Other
+docker-compose.yml
+app/entrypoint.sh
+app/Dockerfile
+
+# Python
+__pycache__/
+*.pyc
+
+# Django DB (if using SQLite locally)
+*.sqlite3
+
+# Environment files
+.env*
+!env.example  # Optional template
+
+# Docker
+*.log
+*.pid
+*.tar
+*.sock
+
+# VSCode or PyCharm configs (optional)
+.vscode/
+.idea/
+
+# System
+.DS_Store
+Thumbs.db
+
