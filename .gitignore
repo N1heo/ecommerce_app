@@ -177,6 +177,7 @@ cython_debug/
 
 # Other
 docker-compose.yml
+docker-compose.staging.yml
 app/entrypoint.sh
 app/Dockerfile
 
