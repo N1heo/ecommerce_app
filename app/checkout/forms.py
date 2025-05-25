@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 
-from checkout.models import BillingAddress
+from app.checkout.models import BillingAddress
 
 
 class BillingForm(ModelForm):
