@@ -2,6 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from rest_framework.permissions import AllowAny, IsAdminUser
 
 from product.api.serializers import ProductSerializer, CategorySerializer
 from product.filters import ProductFilter
@@ -22,6 +23,11 @@ class ProductViewSet(viewsets.ModelViewSet):
     ])
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [AllowAny()]
+        return [IsAdminUser()]
 
 
 class CategoryViewSet(viewsets.ModelViewSet):

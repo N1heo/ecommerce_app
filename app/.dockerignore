@@ -1,0 +1,96 @@
+# ────────────── Version control ──────────────
+.git
+../.gitignore
+.gitattributes
+
+# ────────────── Python bytecode ──────────────
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# ─────────── Distribution/artifacts ───────────
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ─────────── Installer logs ───────────
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ────────── Test & coverage ──────────
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+.hypothesis/
+.pytest_cache/
+
+# ─────────── Translations ───────────
+*.mo
+*.pot
+
+# ─────────── Django specifics ───────────
+*.log
+db.sqlite3
+db.sqlite3-journal
+local_settings.py
+
+# ─────────── Environment files ───────────
+.env
+.env.*
+# If you ever add a .env.example to share defaults, uncomment the next line:
+# !.env.example
+
+# ─────────── Virtual environments ───────────
+.env/
+.venv/
+./venv
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ─────────── IDEs & editors ───────────
+.idea/
+
+# ─────────── OS artifacts ───────────
+.DS_Store
+Thumbs.db
+
+# ─────────── Logs & databases ───────────
+logs/
+*.sql.gz
+*.db
+
+# ─────────── Node (if any) ───────────
+node_modules/
+
+# ─────────── Docker internals ───────────
+.dockerignore
+.docker/
+
+# ─────────── Misc caches/tools ───────────
+.cache/
+.pyre/
+.pytype/

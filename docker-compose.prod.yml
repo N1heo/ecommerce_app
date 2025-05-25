@@ -16,7 +16,7 @@ services:
   nginx-proxy:
     container_name: nginx-proxy
     build: nginx
-    image: 532283244548.dkr.ecr.eu-north-1.amazonaws.com/django-ec2:nxinx-proxy
+    image: 532283244548.dkr.ecr.eu-north-1.amazonaws.com/django-ec2:nginx-proxy
     restart: always
     ports:
       - 443:443

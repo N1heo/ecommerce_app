@@ -31,10 +31,22 @@ from rest_framework_simplejwt.views import (
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="E-Commerce API",
+        title="E-Commerce Backend API",
         default_version='v1',
-        description="Test description",
-        contact=openapi.Contact(email="contact@snippets.local"),
+        description="""
+        This API is part of a backend system developed as a specialization thesis project.
+        It provides core functionality for e-commerce platforms, including user authentication, product and cart management, order processing, and payment integration.
+
+        Built with Django and Django REST Framework, the API is designed to be lightweight, scalable, and easy to use — especially for students and small teams who need a clean and minimal alternative to complex systems like Saleor or Oscar.
+
+        Main features:
+        - JWT-based authentication and role-based access
+        - CRUD for products, categories, carts, and orders
+        - Stripe payment and webhook support
+        - Image handling with Cloudinary
+        - Dockerized deployment, hosted on AWS
+        """,
+        contact=openapi.Contact(email="napsatarov@gmail.com"),
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
@@ -42,16 +54,16 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', include('allauth.urls')),
     path('', include('product.urls', namespace='mainapp')),
     path('', include('cart.urls', namespace='cart')),
     path('', include('checkout.urls', namespace='checkout')),
 
     path('auth/', include('dj_rest_auth.urls')),  # login/logout/password
     path('auth/registration/', include('dj_rest_auth.registration.urls')),  # registration
+    path('accounts/', include('allauth.urls')),
 
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]  # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

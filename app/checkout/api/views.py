@@ -1,6 +1,7 @@
 import stripe
 import logging
 
+from django.http import HttpResponseNotAllowed
 from rest_framework.permissions import AllowAny
 from django.views.decorators.csrf import csrf_exempt
 
@@ -86,12 +87,23 @@ def create_stripe_session(request):
 @api_view(['POST'])  # no auth needed, Stripe is the sender
 @permission_classes([AllowAny])
 def stripe_webhook_view(request):
+    if request.method != "POST":
+        return HttpResponseNotAllowed(['POST'])
+
+    logger.info("🔥 Webhook endpoint hit")
     payload = request.body
-    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+    if sig_header is None:
+        logger.error("Missing Stripe signature header in request")
+        return Response({'error': 'Missing Stripe signature header'}, status=400)
+
     endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
+
+    logger.info("Received Stripe webhook.")
 
     try:
         event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
+        logger.info(f"Stripe event constructed successfully: {event['type']}")
     except ValueError as e:
         logger.error(f"Invalid payload: {e}")
         return Response({'error': 'Invalid payload'}, status=400)
@@ -102,21 +114,32 @@ def stripe_webhook_view(request):
     # Handle successful payment
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
+
+        logger.info(f"Checkout session completed: {session}")
+
         user_id = session['metadata']['user_id']
         order_id = session['metadata']['order_id']
+        logger.info(f"Metadata extracted: user_id={user_id}, order_id={order_id}")
 
         try:
             order = Order.objects.get(id=order_id, user_id=user_id)
+            logger.info(f"Order found: {order}")
             if not order.ordered:
                 order.ordered = True
                 order.payment_id = session.get('payment_intent')
                 order.order_id = f'#{order.user.username}{order.id}'
                 order.save()
+                logger.info(f"Order updated and saved: {order}")
 
                 CartItem.objects.filter(order=order).update(purchased=True)
+                logger.info(f"Cart items marked as purchased for order: {order.id}")
 
         except Order.DoesNotExist:
+            logger.error(f"Order with id={order_id} and user_id={user_id} not found.")
             return Response({'error': 'Order not found'}, status=404)
+        except Exception as e:
+            logger.error(f"Unexpected error during order update: {e}")
+            return Response({'error': 'Internal error'}, status=500)
 
     return Response({'status': 'success'})
 
