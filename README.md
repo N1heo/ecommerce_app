@@ -108,7 +108,6 @@ You’ll find all available endpoints and can test them directly.
 1. **Clone the repo:**
    ```bash
    git clone https://github.com/N1heo/ecommerce_app.git
-   cd ecommerce-backend
    ```
 
 2. **Set environment variables** (DB settings, etc.)
