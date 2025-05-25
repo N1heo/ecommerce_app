@@ -10,12 +10,16 @@ A scalable and extensible RESTful API backend for an e-commerce platform, built 
 - **API:** Django REST Framework (DRF)
 - **Database:** PostgreSQL
 - **Documentation:** Swagger (drf-yasg)
-- **Payment system:** [Stripe](https://stripe.com/) 
+- **Payment system:** [Stripe](https://stripe.com/)
+- **Image processing:** Cloudinary
+- **Containerization:** Docker
+- **Deployment:** AWS
 
 ---
 
 ## 🚀 Features
 
+- ✅ B2C model implementation
 - ✅ RESTful APIs for products, carts, and orders
 - ✅ User registration & login via Tokens
 - ✅ Admin panel for product and order management
@@ -31,55 +35,64 @@ A scalable and extensible RESTful API backend for an e-commerce platform, built 
 ```
 ecommerce_app/
 │
-├── cart/                         # Shopping cart app
-│   ├── api/                      # API logic for cart (views, serializers)
-│   ├── migrations/               # Django migration files
+├── app/                          # Main Django application
+│   ├── cart/                     # Shopping cart app
+│   │   ├── api/                  # API endpoints
+│   │   ├── migrations/
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py
+│   │   ├── tests.py
+│   │   └── urls.py
+│   │
+│   ├── checkout/                 # Checkout & payments
+│   │   ├── api/                  # Stripe integration
+│   │   ├── migrations/
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py             # Order, Payment models
+│   │   ├── tests.py
+│   │   └── urls.py
+│   │
+│   ├── product/                  # Product catalog
+│   │   ├── api/
+│   │   ├── migrations/
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py             
+│   │   ├── tests.py
+│   │   └── urls.py
+│   │
+│   ├── ecommerce_app/            # Project config
+│   │   ├── __init__.py
+│   │   ├── asgi.py
+│   │   ├── settings/             # Split settings
+│   │   │   ├── base.py
+│   │   │   ├── development.py
+│   │   │   └── production.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
+│   │
 │   ├── __init__.py
-│   ├── admin.py                  # Cart admin config
-│   ├── apps.py                   # App config
-│   ├── models.py                 # Cart-related models (e.g., CartItem)
-│   ├── tests.py                  
-│   └── urls.py                   # URL routes for the cart API
+│   ├── dockerignore
+│   ├── Dockerfile.prod           # Production Dockerfile
+│   ├── entrypoint_prod.sh        # Production entrypoint
+│   ├── manage.py
+│   └── requirements.txt          # Split into base.txt, prod.txt, dev.txt
 │
-├── checkout/                     # Checkout & order finalization app
-│   ├── api/                      # API logic for checkout (views, serializers)
-│   ├── migrations/
-│   ├── __init__.py
-│   ├── admin.py                  # Admin config for orders
-│   ├── apps.py
-│   ├── forms.py                  # (If used for Django admin or DRF HTML rendering)
-│   ├── models.py                 # Order model and related entities
-│   ├── tests.py
-│   └── urls.py
+├── nginx/                        # Nginx configuration
+│   ├── Dockerfile
+│   ├── custom.conf               # Custom nginx config
+│   └── vhost.d/                  # Virtual host configs
 │
-├── ecommerce_app/                # Project-level Django settings
-│   ├── __init__.py
-│   ├── asgi.py
-│   ├── settings.py               # Installed apps, middleware, Firebase, etc.
-│   ├── urls.py                   # Root URLs (includes app URLs)
-│   └── wsgi.py
 │
-├── media/                        # Uploaded media (e.g., product images)
-│
-├── product/                      # Product catalog app
-│   ├── api/                      # API views, serializers, viewsets
-│   ├── migrations/
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── filters.py                # Product filtering logic
-│   ├── models.py                 # Product, Category, etc.
-│   ├── tests.py
-│   └── urls.py
-│
-├── venv/                         # Python virtual environment
-│
-├── .env                          # Environment variables (DB, Firebase config, etc.)
+├── .env.prod                     # Production environment vars
 ├── .gitignore
-├── manage.py
-├── README.md
-└── requirements.txt
-
+├── docker-compose.prod.yml       # Production compose
+└── README.md
 ```
 
 ---
