@@ -1,6 +1,6 @@
 # 🛒 E-Commerce Backend API
 
-A scalable and extensible RESTful API backend for an e-commerce platform, built using **Django** and **Django REST Framework (DRF)**. This API supports full shopping functionality, user authentication, cart and order management, and integrates with **Firebase** for user-device pairing (e.g., smart beekeeping sensors). API documentation is provided via **Swagger UI** for developer-friendly exploration.
+A scalable and extensible RESTful API backend for an e-commerce platform, built using **Django** and **Django REST Framework (DRF)**. This API supports full shopping functionality, user authentication, cart and order management, and integrates with Stripe payment service. API documentation is provided via **Swagger UI** for developer-friendly exploration.
 
 ---
 
